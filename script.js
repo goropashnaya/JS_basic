@@ -109,37 +109,67 @@
 
 // console.log(mathOperation(4, 5, 'plus'));
 
-// №1 
-for (let i = 0; i < 100; i++) {
-	if (isPrime(i)) {
-  	console.log(i);
+// // №1 
+// for (let i = 0; i < 100; i++) {
+// 	if (isPrime(i)) {
+//   	console.log(i);
+//   }
+// }
+
+// function isPrime(a) {
+//   if (a < 2) {
+//     return false;
+//   }
+
+//   for (let i = 2; i < a; i++) {
+//     if (a % i == 0) {
+//       return false;
+//     }
+//   }
+//   return true;
+// }
+
+// // №2
+// let cart = [
+//   ['jacket', 1500, 1], 
+//   ['t-shirt', 400, 3], 
+//   ['jeans', 900, 1], 
+//   ['boots', 1300, 1],
+//   ];
+  
+//   function countBasketPrice(cart) {
+//     let total = cart.reduce((total, item) => total + item[1] * item[2], 0);
+//     return total;
+//   }
+  
+//   console.log(countBasketPrice(cart));
+
+// №1
+function isDigit(a) {
+	if (!Number.isInteger(a) || a < 0 || a > 999){
+  	console.log('Введите число от 0 до 999')
+  	return {};
+  } else {
+  	return {
+    	units: a % 10,
+      tens: Math.floor(a / 10 % 10),
+      hundreds: Math.floor(a / 100)
+    };
   }
 }
-
-function isPrime(a) {
-  if (a < 2) {
-    return false;
-  }
-
-  for (let i = 2; i < a; i++) {
-    if (a % i == 0) {
-      return false;
-    }
-  }
-  return true;
-}
+console.log(isDigit(876));
 
 // №2
-let cart = [
-  ['jacket', 1500, 1], 
-  ['t-shirt', 400, 3], 
-  ['jeans', 900, 1], 
-  ['boots', 1300, 1],
-  ];
-  
-  function countBasketPrice(cart) {
-    let total = cart.reduce((total, item) => total + item[1] * item[2], 0);
-    return total;
+let cart = {
+	items: [
+    {name: 'jacket', price: 1500, quantity: 1},
+    {name: 't-shirt', price: 400, quantity: 3},
+    {name: 'jeans', price: 900, quantity: 1},
+    {name: 'boots', price: 1300, quantity: 1}
+  ],
+  countBasketPrice() {
+  	let total = this.items.reduce((total, items) => total + items.price * items.quantity, 0)
+    return total
   }
-  
-  console.log(countBasketPrice(cart));
+};
+console.log(cart.countBasketPrice());
