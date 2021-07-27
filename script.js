@@ -144,32 +144,135 @@
   
 //   console.log(countBasketPrice(cart));
 
+// // №1
+// function isDigit(a) {
+// 	if (!Number.isInteger(a) || a < 0 || a > 999){
+//   	console.log('Введите число от 0 до 999')
+//   	return {};
+//   } else {
+//   	return {
+//     	units: a % 10,
+//       tens: Math.floor(a / 10 % 10),
+//       hundreds: Math.floor(a / 100)
+//     };
+//   }
+// }
+// console.log(isDigit(876));
+
+// // №2
+// let cart = {
+// 	items: [
+//     {name: 'jacket', price: 1500, quantity: 1},
+//     {name: 't-shirt', price: 400, quantity: 3},
+//     {name: 'jeans', price: 900, quantity: 1},
+//     {name: 'boots', price: 1300, quantity: 1}
+//   ],
+//   countBasketPrice() {
+//   	let total = this.items.reduce((total, items) => total + items.price * items.quantity, 0)
+//     return total
+//   }
+// };
+// console.log(cart.countBasketPrice());
+
 // №1
-function isDigit(a) {
-	if (!Number.isInteger(a) || a < 0 || a > 999){
-  	console.log('Введите число от 0 до 999')
-  	return {};
-  } else {
-  	return {
-    	units: a % 10,
-      tens: Math.floor(a / 10 % 10),
-      hundreds: Math.floor(a / 100)
-    };
+function chessBoard() {
+  let board = document.createElement('table');
+  let x = true;
+  let rows = document.createElement('tr');
+  let arr = [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  
+  for (let i = 0; i < 8; i++) {
+  
+    let tr = document.createElement('tr');
+    let cols = document.createElement('td');
+    
+    cols.innerHTML = 8 - i;
+    tr.appendChild(cols);
+    
+    for (let j = 0; j < 8; j++) {
+    
+      if (j == 0) {
+        x = !x;
+      }
+      
+      let td = document.createElement('td');
+      
+      if (x) {
+        td.style.background = '#000';
+      } else {
+        td.style.background = '#fff';
+      }
+      
+      tr.appendChild(td);
+      x = !x;
+    }
+    board.appendChild(tr);
   }
+  
+  for (let k = 0; k < 9; k++) {
+    let td = document.createElement('td');
+    td.innerHTML = arr[k]
+    
+    rows.appendChild(td);
+  }
+  
+  board.appendChild(rows);
+  
+  document.body.appendChild(board);
 }
-console.log(isDigit(876));
+
+chessBoard();
 
 // №2
+let btn = document.createElement('button');
+btn.innerHTML = 'Reset';
+document.body.appendChild(btn);
+
+let cartItems = {
+	render(item) {
+      return `<span>Item: ${item.name}</span>
+              <span>Quantity: ${item.quantity}</span>
+              <span>Price per unit: ${item.price}</span><br>`;
+  }
+}
+
 let cart = {
-	items: [
+  cartList: null,
+  cartButton: null,
+  cartItems,
+  items: [
     {name: 'jacket', price: 1500, quantity: 1},
     {name: 't-shirt', price: 400, quantity: 3},
-    {name: 'jeans', price: 900, quantity: 1},
-    {name: 'boots', price: 1300, quantity: 1}
   ],
+  
+  bucket() {
+    this.cartList = document.querySelector('.cart');
+    this.cartButton = document.querySelector('button');
+    this.cartButton.addEventListener('click', this.resetCart.bind(this));
+    
+    this.render();
+  },
+  
+  render() {
+  	if (this.items.length) {
+    		this.items.forEach(item => {
+        	this.cartList.insertAdjacentHTML('beforeend', this.cartItems.render(item));
+        });
+        this.cartList.insertAdjacentHTML('beforeend', `${this.items.length} items at cost of ${this.countBasketPrice()}`);
+    } else {
+    		this.cartList.textContent = 'Cart is empty';
+    }
+  },
+  
   countBasketPrice() {
   	let total = this.items.reduce((total, items) => total + items.price * items.quantity, 0)
-    return total
+		return total
+  },
+  
+  resetCart() {
+  	this.items = [];
+    this.render();
   }
 };
-console.log(cart.countBasketPrice());
+
+cart.bucket();
